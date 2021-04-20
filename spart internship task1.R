@@ -1,13 +1,20 @@
-hours=c(2.5,5.1,3.2,8.5,3.5,1.5,9.2,5.5,8.3,2.7,7.7,5.9,4.5,3.3,1.1,8.9,2.5,1.9,6.1,7.4,2.7,4.8,3.8,6.9,7.8)
-score=c(21,47,27,75,30,20,88,60,81,25,85,62,41,42,17,95,30,24,67,69,30,54,35,76,86)
-d=data.frame(hours,score)
-r=lm(score~hours,data=d) #we fit a linear regression model where 
-summary(r)
-pr_hr=predict(r,data.frame(hours=9.25))
-print(pr_hr)
-library(ggplot2)
-ggplot(d,aes(x=hours,y=score))+geom_point()+geom_smooth(method="lm")+labs(title="Student Percentage Vs Study hours",x="Study hours",y="student Percentage")
-                              
+data=read.csv("scores.csv")           #Reading the given data
+data
+newdata=data.frame(x=9.25)            #For given value of study time
+x=data$Hours
+y=data$Scores                         #Defining the Variables 
+model=lm(y~x)                         #Defining the linear model 
+summary(model)                        #Summary of the linear model
+predict.lm(model,newdata)             #Predicting the score value for the given study hour
+library(ggplot2)                      #Calling the library
+ggplot(data,aes(x,y)) + geom_point() +geom_smooth(method = "lm")+ labs(title = "Student Percentage vs Study Hours",x = "Study Hours",y = "Student Percentage")#Representing the Students' Scores vs Study Hours through a scatterplot 
+        
+            
+library(MASS)                        #Calling the library
+resi=stdres(model)                   #Obtaining the Residual values from the linear model
+ggplot(data,aes(x, y = resi)) + geom_point() + geom_hline(yintercept=0)+ geom_hline(yintercept=-2, linetype="dashed", color = "red")+ 
+ geom_hline(yintercept=2, linetype="dashed", color = "red")+labs(title = "Student Percentage vs Study Hours",x = "Fitted Values", y = "Residuals")#Representing the Residual values vs Fitted Values of the linear model through a Scatterplot                                                         
                                                           
-                                                                                x = "Fitted Values",
-                                                                                y = "Residuals")
+                                                          
+                                                                                
+                                                                                      
